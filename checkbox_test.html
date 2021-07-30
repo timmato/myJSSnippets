@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Checkbox test</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css'>
+    <style>
+        #container {
+            width: 80%;
+            background-color: lightblue;
+            margin: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container" class="col-md-8 offset-md-1 pb-4">
+        <h1 class="ml-4">Checkbox with Vanilla JS</h1>
+        <p class="ml-4">Using checkboxes like radio buttons.</p>
+        <p class="ml-4">Only one can be checked, and the one checked cannot be unchecked (disabled) except by selecting
+            another checkbox</p>
+        <div class="row ml-4">
+            <label class="checkbox">
+                <input name="opt1" type="checkbox" class="opt1" />
+                <span>True</span> </label>
+            <label class="checkbox">
+                <input name="opt2" type="checkbox" class="opt2" />
+                <span>False</span> </label>
+            <label class="checkbox">
+                <input name="opt3" type="checkbox" class="opt3" />
+                <span>Unknown</span> </label>
+        </div>
+        <p class="ml-4 mt-4">Currently Selected: <span id="selectedCB"> </span></p>
+    </div>
+    <script>
+        //wait for dom to load
+        document.addEventListener("DOMContentLoaded", function (event) {
+            initCB();
+        });
+        //calculate max options - note: this would be for the whole page
+        maxOptions = document.querySelectorAll("input[type='checkbox']").length;
+
+        //set up first box checkd and add listeners to the checkboxes
+        initCB = () => {
+            setCheckBox(1);
+            setCheckBoxListeners();
+        }
+        //set the selected checkbox to checked and disabled, call a function
+        setCheckBox = (id) => {
+            let myCheckBox = document.querySelector(".opt" + id)
+            myCheckBox.checked = true;
+            myCheckBox.disabled = true;
+            updateInfo(id);
+        }
+        //reset checkboxes that are not id to not be disabled
+        resetCheckBoxes = (id) => {
+            for (let i = 1; i < maxOptions + 1; i++) {
+                if (i != id) {
+                    let myCheckBox = document.querySelector(".opt" + i);
+                    myCheckBox.disabled = false;
+                    myCheckBox.checked = false;
+                }
+            }
+        }
+        //add listeners to all checkboxes
+        setCheckBoxListeners = () => {
+            for (let i = 1; i < maxOptions + 1; i++) {
+                let curCB = document.querySelector("input[name=opt" + i + "]");
+                curCB.addEventListener('change', function (e) {
+                    optClick(i);
+                    e.preventDefault();
+                });
+            }
+        }
+        //handle the checkbox click
+        optClick = (id) => {
+            //set this cb checked and disabled
+            setCheckBox(id);
+            resetCheckBoxes(id);
+            updateInfo(id)
+        }
+        //sample function called after checkbox business is done
+        updateInfo = (id) => {
+            document.querySelector("#selectedCB").textContent = id;
+        }
+    </script>
+</body>
+
+</html>
