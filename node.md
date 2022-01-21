@@ -7,6 +7,8 @@ node test
 npx run-func file.js someFunction "a parameter"
 ##### example:
 npx run-func script.js URLify "test"
-the function in the .js script should look like:
+##### the function in the .js script should look like:
+```
 module.exports.URLify = (urlString='') => {
 }
+```
